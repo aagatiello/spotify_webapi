@@ -1,5 +1,8 @@
 import React from "react";
 import axios from "axios";
+import SpotifyPlayer from "react-spotify-player";
+import { SpiralSpinner } from "react-spinners-kit";
+import ReactModal from "./ReactModal";
 import "./Styles.css";
 
 const scopes = [
@@ -19,23 +22,26 @@ class Search extends React.Component {
             user: {},
             song: "",
             track: "",
-            loading: false,
+            trackAdd: [],
             results: [],
-            initializeSearch: false,
+            playlists: [],
+            getSearch: false,
+            openModal: false,
             redirect_uri: `${process.env.REACT_APP_API_AUTH}?client_id=${
                 process.env.REACT_APP_API_CLIENT_ID
             }&redirect_uri=${
                 process.env.REACT_APP_API_REDIRECT_URI
             }&scope=${scopes.join("%20")}&response_type=token&show_dialog=true`,
+            songUri: "",
         };
     }
 
-    searchSong = () => {
+    searchBar = () => {
         const { token, song } = this.state;
         if (song) {
             this.setState({
                 loader: true,
-                initializeSearch: true,
+                getSearch: true,
             });
             const headers = {
                 Authorization: "Bearer " + token,
@@ -48,7 +54,7 @@ class Search extends React.Component {
                         sessionStorage.removeItem("token");
                         window.location = this.state.redirect_uri;
                     }
-                    console.table(response.data);
+
                     if (
                         response &&
                         response.data &&
@@ -66,21 +72,126 @@ class Search extends React.Component {
                         });
                     }
                 })
-                .catch((error) => {
-                    console.table("Song not found", error);
+                .catch(() => {
                     this.setState({
                         results: [],
                         loader: false,
                     });
                 });
         } else {
-            alert("Please enter something...");
+            alert(
+                "Instrucciones: 1. Inserte el nombre de una canción 2. Pulse el botón 'Buscar'"
+            );
+        }
+    };
+
+    openReactModel = (track) => {
+        this.setState({
+            openModal: true,
+            track,
+        });
+        const { token } = this.state;
+        const headers = {
+            Authorization: "Bearer " + token,
+        };
+        const url = `https://api.spotify.com/v1/me/playlists`;
+        axios
+            .get(url, { headers })
+            .then((response) => {
+                if (response.error) {
+                    sessionStorage.removeItem("token");
+                    window.location = this.state.redirect_uri;
+                }
+                if (response && response.data && response.data.items) {
+                    this.setState({
+                        playlists: response.data.items,
+                    });
+                } else {
+                    this.setState({
+                        playlists: [],
+                    });
+                }
+            })
+            .catch(() => {
+                sessionStorage.removeItem("token");
+                window.location = this.state.redirect_uri;
+                this.setState({
+                    playlists: [],
+                });
+            });
+    };
+
+    closeReactModel = () => {
+        this.setState({
+            openModal: false,
+        });
+    };
+
+    addToPlaylist = (playlist, isOwner) => {
+        if (!isOwner) {
+            alert(
+                "No eres dueño de la playlist, por lo que no se puede agregar la canción aquí."
+            );
+        } else {
+            const { track, token, trackAdd } = this.state;
+            if (track && playlist) {
+                const headers = {
+                    Authorization: "Bearer " + token,
+                };
+                const url = `https://api.spotify.com/v1/playlists/${playlist}/tracks?uris=${track}`;
+                axios
+                    .post(url, {}, { headers })
+                    .then((response) => {
+                        if (response.error) {
+                            sessionStorage.removeItem("token");
+                            window.location = this.state.redirect_uri;
+                        }
+                        if (
+                            response &&
+                            response.data &&
+                            response.data.snapshot_id
+                        ) {
+                            const newTrackArray = trackAdd;
+                            newTrackArray.push(track);
+                            this.setState({
+                                trackAdd: newTrackArray,
+                            });
+                        } else {
+                            this.setState({
+                                trackAdd: [],
+                            });
+                        }
+                    })
+                    .catch(() => {
+                        this.setState({
+                            trackAdd: [],
+                        });
+                    });
+            } else {
+                alert("Ha habido un problema por el camino :(");
+            }
+            this.closeReactModel();
         }
     };
 
     render() {
-        const { token, loader, results, error, initializeSearch, user } =
-            this.state;
+        const {
+            token,
+            loader,
+            results,
+            error,
+            getSearch,
+            openModal,
+            playlists,
+            trackAdd,
+            user,
+            songUri,
+        } = this.state;
+
+        const sizeSpotifyPlayer = {
+            width: "100%",
+            height: 80,
+        };
 
         return (
             <div>
@@ -99,62 +210,87 @@ class Search extends React.Component {
                             />
                             <button
                                 className="searchButton"
-                                onClick={this.searchSong}
+                                onClick={this.searchBar}
                             >
                                 Buscar
                             </button>
                         </div>
                         <div className="song-search-results">
                             {loader ? (
-                                <div className="loader">LOADING</div>
+                                <div className="loader">
+                                    <SpiralSpinner
+                                        size={85}
+                                        frontColor="#1db954"
+                                    />
+                                </div>
                             ) : (
-                                <div>
-                                    <div className="results-list">
-                                        {results.map((song, ind) => {
-                                            return (
+                                <div className="results-list">
+                                    {results.map((song, ind) => {
+                                        return (
+                                            <div
+                                                className="song-data"
+                                                key={ind}
+                                            >
                                                 <div
-                                                    className="song-data"
-                                                    key={ind}
+                                                    className="left-data"
+                                                    onClick={() => {
+                                                        this.setState({
+                                                            songUri: song.uri,
+                                                        });
+                                                    }}
                                                 >
-                                                    <div
-                                                        className="left-data"
-                                                        onClick={() => {
-                                                            console.log(user);
-                                                            this.setState({
-                                                                songuri:
-                                                                    song.uri,
-                                                            });
-                                                        }}
-                                                    >
-                                                        <img
-                                                            src={
-                                                                song.album
-                                                                    .images[0]
-                                                                    .url
-                                                            }
-                                                            alt="album-img"
-                                                            className="album-img"
-                                                        />
-                                                        <div className="song-name">
-                                                            {song.name} by{" "}
-                                                            {
-                                                                song.artists[0]
-                                                                    .name
-                                                            }
-                                                        </div>
+                                                    <img
+                                                        src={
+                                                            song.album.images[0]
+                                                                .url
+                                                        }
+                                                        alt="album-img"
+                                                        className="album-img"
+                                                    />
+                                                    <div className="song-name">
+                                                        {song.name} by{" "}
+                                                        {song.artists[0].name}
                                                     </div>
                                                 </div>
-                                            );
-                                        })}
-                                        {initializeSearch &&
-                                            !results.length && (
-                                                <div className="error">
-                                                    No se han encontrado
-                                                    canciones que coincidan con
-                                                    la busqueda.
-                                                </div>
-                                            )}
-                                    </div>
+                                                <button
+                                                    className="playlistButton"
+                                                    onClick={() => {
+                                                        if (
+                                                            trackAdd.indexOf(
+                                                                song.uri
+                                                            ) < 0
+                                                        )
+                                                            this.openReactModel(
+                                                                song.uri
+                                                            );
+                                                    }}
+                                                >
+                                                    {trackAdd.indexOf(
+                                                        song.uri
+                                                    ) > -1
+                                                        ? "Agregada"
+                                                        : "Agregar a playlist"}
+                                                </button>
+                                            </div>
+                                        );
+                                    })}
+                                    {getSearch && !results.length && (
+                                        <div className="error">
+                                            No se han encontrado canciones que
+                                            coincidan con la busqueda.
+                                        </div>
+                                    )}
+                                </div>
+                            )}
+
+                            {getSearch && results.length && songUri && (
+                                <div>
+                                    <SpotifyPlayer
+                                        uri={this.state.songUri}
+                                        size={sizeSpotifyPlayer}
+                                        view="list"
+                                        theme="white"
+                                    />
                                 </div>
                             )}
                         </div>
@@ -166,6 +302,15 @@ class Search extends React.Component {
                         No ha sido posible obtener los datos del usuario, por
                         favor, intentalo de nuevo.
                     </div>
+                )}
+
+                {openModal && (
+                    <ReactModal
+                        user={user}
+                        closeReactModel={this.closeReactModel}
+                        playlists={playlists}
+                        addToPlaylist={this.addToPlaylist}
+                    />
                 )}
             </div>
         );

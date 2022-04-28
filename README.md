@@ -1,14 +1,28 @@
-# Spotify Web API v 0.1. <img src="https://www.nebrija.com/lp/2019/inc/common/assets/img/logo_nebrija.png" height="50px" align="right" />
+# Spotify Web API v1.0 <img src="https://www.nebrija.com/lp/2019/inc/common/assets/img/logo_nebrija.png" height="50px" align="right" />
+![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
+![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E)
+![HTML5](https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white)
+![CSS3](https://img.shields.io/badge/css3-%231572B6.svg?style=for-the-badge&logo=css3&logoColor=white)
+ 
+Página que a través de la API de Spotify puedes buscar música nueva o conocida, ver tus estadísticas y encontrar recomendaciones según tu perfil.
 
-* Stack: React, JS, CSS.
-* Página que a través de la API de Spotify puedes buscar canciones u artistas. 
-
-Funcionalidades: 
-* Inicio de sesión.
-* Busqueda de canción o artista por nombre.
+## :bookmark_tabs: Tabla de contenidos 
+1. Demo
+2. Funcionalidades
+3. Instalacion
+4. Problemas conocidos
+5. Dependencias
+6. Otra informacion
+7. Licencia
 
 ## :computer: Demo
 Visita mi proyecto haciendo click [Aquí](https://aagatiello.github.io/)
+
+## :gear: Funcionalidades
+| VERSION | FUNCIONALIDADES |
+|---|---|
+| v0.1 | Inicio de sesión<br>Busqueda de canción o artista por nombre |
+| v1.0 | Reproducción de canción seleccionada<br>Agregar canción a playlist del usuario<br>Mejoras visuales de la interfaz |
 
 ## :hammer_and_wrench: Instalación
 Las siguientes instrucciones te permitirán descargar el proyecto y ejecutarlo para que sea usado localmente. 
@@ -28,6 +42,9 @@ npm start
 Ejecuta la app en modo desarrollo. 
 Para poder verlo en el navegador, abre [http://localhost:3000](http://localhost:3000)
 
+## :triangular_flag_on_post: Problemas conocidos
+* En Google Chrome puede dar error al iniciar sesión. El navegador recomendado para esta aplicación es `Firefox`.
+
 ## :paperclips: Dependencias
 Se encuentran en el archivo `package.json`.
 
@@ -41,15 +58,19 @@ El proyecto cuenta con las siguientes dependencias:
     "axios": "^0.27.2",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
+    "react-modal": "^3.15.1",
     "react-scripts": "5.0.1",
+    "react-spinners-kit": "^1.9.1",
+    "react-spotify-player": "^1.0.4",
     "web-vitals": "^2.1.4"
 }
 ```
 
 ## :link: Otra información
-
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 To learn React, check out the [React documentation](https://reactjs.org/).
 
 
+## :copyright: Licencia 
+[MIT](https://choosealicense.com/licenses/mit/)

@@ -70,7 +70,6 @@ class OAuth extends React.Component {
                     sessionStorage.removeItem("token");
                     window.location = this.state.redirect_uri;
                 }
-                console.table(response.data);
                 this.setState({
                     user: response.data,
                 });
