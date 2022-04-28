@@ -1,0 +1,18 @@
+html,
+body {
+    background-color: #191414;
+    font-family: "Montserrat", sans-serif;
+    color: #ffffff;
+}
+
+.App-header {
+    background-color: #1db954;
+    padding: 10px;
+    display: flex;
+    flex-direction: row;
+}
+
+.name-header {
+    margin-left: 10px;
+    font-size: 25px;
+}

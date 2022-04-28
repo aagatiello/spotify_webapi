@@ -1,0 +1,71 @@
+.init-view {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    min-height: 85vh;
+}
+
+.init-title {
+    color: #ffffff;
+    font-size: 75px;
+    padding: 15px;
+}
+
+a.init-button {
+    font-size: 20px;
+    color: #ffffff;
+    padding: 10px 20px;
+    border-radius: 30px;
+    border: 2px solid #191414;
+    cursor: pointer;
+}
+
+.search-bar {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    padding: 15px;
+}
+
+.searchInput {
+    height: 35px;
+    width: 75%;
+    margin: 10px;
+    padding: 0.46em 1.6em;
+    border: 0.1em;
+    border-radius: 10px;
+    background-color: #ffffff;
+}
+
+.searchButton {
+    height: 35px;
+    margin: 10px;
+    padding: 0.46em 1.6em;
+    color: #ffffff;
+    font-weight: bold;
+    border: 0.1em;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+
+.song-data {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 10px;
+}
+
+.left-data {
+    width: 50%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.album-img {
+    border-right: 15px solid #ffffff00;
+    height: 50px;
+}
