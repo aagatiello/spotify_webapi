@@ -2,6 +2,9 @@ import React from "react";
 import axios from "axios";
 import Search from "./Search";
 import "./Styles.css";
+import ReactFullpage from "@fullpage/react-fullpage";
+import LogOut from "./LogOut";
+import usericon from "../img/usericon.png";
 
 const scopes = [
     "playlist-modify-public",
@@ -88,7 +91,7 @@ class OAuth extends React.Component {
     }
 
     render() {
-        const { redirect_uri, token, error } = this.state;
+        const { redirect_uri, token, error, user } = this.state;
 
         return (
             <div>
@@ -101,7 +104,37 @@ class OAuth extends React.Component {
                     </div>
                 )}
 
-                {token && !error && <Search />}
+                {token && !error && user.display_name && (
+                    <ReactFullpage
+                        licenseKey={null}
+                        scrollingSpeed={750}
+                        navigation
+                        sectionsColor={["#191414", "#1db954", "#191414"]}
+                        render={() => {
+                            let icon;
+                            if (user.images[0].url !== undefined) {
+                                icon = user.images[0].url;
+                            } else {
+                                icon = usericon;
+                            }
+                            return (
+                                <ReactFullpage.Wrapper>
+                                    <div className="section">
+                                        <Search
+                                            redirect_uri={redirect_uri}
+                                            token={token}
+                                            error={error}
+                                            user={user}
+                                        />
+                                    </div>
+                                    <div className="section">
+                                        <LogOut img={icon} />
+                                    </div>
+                                </ReactFullpage.Wrapper>
+                            );
+                        }}
+                    />
+                )}
 
                 {token && error && (
                     <div>Ha ocurrido un error iniciando sesión</div>

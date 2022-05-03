@@ -5,21 +5,10 @@ import { SpiralSpinner } from "react-spinners-kit";
 import ReactModal from "./ReactModal";
 import "./Styles.css";
 
-const scopes = [
-    "playlist-modify-public",
-    "playlist-modify-private",
-    "playlist-read-private",
-    "playlist-read-collaborative",
-];
-
 class Search extends React.Component {
-    constructor() {
-        super();
-        let token = sessionStorage.getItem("token");
+    constructor(props) {
+        super(props);
         this.state = {
-            error: false,
-            token: token || null,
-            user: {},
             song: "",
             track: "",
             trackAdd: [],
@@ -27,17 +16,14 @@ class Search extends React.Component {
             playlists: [],
             getSearch: false,
             openModal: false,
-            redirect_uri: `${process.env.REACT_APP_API_AUTH}?client_id=${
-                process.env.REACT_APP_API_CLIENT_ID
-            }&redirect_uri=${
-                process.env.REACT_APP_API_REDIRECT_URI
-            }&scope=${scopes.join("%20")}&response_type=token&show_dialog=true`,
-            songUri: "",
+            songuri: "",
+            loader: false,
         };
     }
 
     searchBar = () => {
-        const { token, song } = this.state;
+        const { song } = this.state;
+        const { token } = this.props;
         if (song) {
             this.setState({
                 loader: true,
@@ -52,7 +38,7 @@ class Search extends React.Component {
                 .then((response) => {
                     if (response.error) {
                         sessionStorage.removeItem("token");
-                        window.location = this.state.redirect_uri;
+                        window.location = this.props.redirect_uri;
                     }
 
                     if (
@@ -90,7 +76,7 @@ class Search extends React.Component {
             openModal: true,
             track,
         });
-        const { token } = this.state;
+        const { token } = this.props;
         const headers = {
             Authorization: "Bearer " + token,
         };
@@ -100,7 +86,7 @@ class Search extends React.Component {
             .then((response) => {
                 if (response.error) {
                     sessionStorage.removeItem("token");
-                    window.location = this.state.redirect_uri;
+                    window.location = this.props.redirect_uri;
                 }
                 if (response && response.data && response.data.items) {
                     this.setState({
@@ -114,7 +100,7 @@ class Search extends React.Component {
             })
             .catch(() => {
                 sessionStorage.removeItem("token");
-                window.location = this.state.redirect_uri;
+                window.location = this.props.redirect_uri;
                 this.setState({
                     playlists: [],
                 });
@@ -133,7 +119,8 @@ class Search extends React.Component {
                 "No eres dueño de la playlist, por lo que no se puede agregar la canción aquí."
             );
         } else {
-            const { track, token, trackAdd } = this.state;
+            const { track, trackAdd } = this.state;
+            const { token } = this.props;
             if (track && playlist) {
                 const headers = {
                     Authorization: "Bearer " + token,
@@ -144,7 +131,7 @@ class Search extends React.Component {
                     .then((response) => {
                         if (response.error) {
                             sessionStorage.removeItem("token");
-                            window.location = this.state.redirect_uri;
+                            window.location = this.props.redirect_uri;
                         }
                         if (
                             response &&
@@ -168,24 +155,61 @@ class Search extends React.Component {
                         });
                     });
             } else {
-                alert("Ha habido un problema por el camino :(");
+                alert("Ha habido un problema por el camino.");
             }
             this.closeReactModel();
         }
     };
 
+    createPlaylist = (playlistName) => {
+        if (playlistName) {
+            const { track } = this.state;
+            const { token, user } = this.props;
+            const headers = {
+                Authorization: "Bearer " + token,
+            };
+            const url = `https://api.spotify.com/v1/users/${user.id}/playlists`;
+            const postData = {
+                name: playlistName,
+                description: `${playlistName} description`,
+                public: false,
+            };
+            axios
+                .post(url, postData, { headers })
+                .then((response) => {
+                    if (response.error) {
+                        sessionStorage.removeItem("token");
+                        window.location = this.props.redirect_uri;
+                    }
+                    if (response && response.data && response.data.uri) {
+                        this.openReactModel(track);
+                    } else {
+                        this.setState({
+                            openModal: false,
+                        });
+                    }
+                })
+                .catch(() => {
+                    sessionStorage.removeItem("token");
+                    window.location = this.props.redirect_uri;
+                    this.setState({
+                        openModal: false,
+                    });
+                });
+        }
+    };
+
     render() {
+        const { token, error, user } = this.props;
+
         const {
-            token,
             loader,
             results,
-            error,
             getSearch,
             openModal,
             playlists,
             trackAdd,
-            user,
-            songUri,
+            songuri,
         } = this.state;
 
         const sizeSpotifyPlayer = {
@@ -207,6 +231,7 @@ class Search extends React.Component {
                                         song: e.target.value,
                                     });
                                 }}
+                                onKeyDown={this.handleKeyDown}
                             />
                             <button
                                 className="searchButton"
@@ -235,7 +260,7 @@ class Search extends React.Component {
                                                     className="left-data"
                                                     onClick={() => {
                                                         this.setState({
-                                                            songUri: song.uri,
+                                                            songuri: song.uri,
                                                         });
                                                     }}
                                                 >
@@ -276,17 +301,17 @@ class Search extends React.Component {
                                     })}
                                     {getSearch && !results.length && (
                                         <div className="error">
-                                            No se han encontrado canciones que
+                                            No se han encontrado resultados que
                                             coincidan con la busqueda.
                                         </div>
                                     )}
                                 </div>
                             )}
 
-                            {getSearch && results.length && songUri && (
+                            {getSearch && results.length && songuri && (
                                 <div>
                                     <SpotifyPlayer
-                                        uri={this.state.songUri}
+                                        uri={this.state.songuri}
                                         size={sizeSpotifyPlayer}
                                         view="list"
                                         theme="white"
@@ -309,6 +334,7 @@ class Search extends React.Component {
                         user={user}
                         closeReactModel={this.closeReactModel}
                         playlists={playlists}
+                        newPlaylist={this.createPlaylist}
                         addToPlaylist={this.addToPlaylist}
                     />
                 )}

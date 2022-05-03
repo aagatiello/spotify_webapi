@@ -17,9 +17,21 @@ a.init-button {
     font-size: 20px;
     color: #ffffff;
     padding: 10px 20px;
+    background: -webkit-gradient(
+        linear,
+        left top,
+        left bottom,
+        from(#1db954),
+        to(#1db9547a)
+    );
+    -moz-border-radius: 30px;
+    -webkit-border-radius: 30px;
     border-radius: 30px;
     border: 2px solid #191414;
     cursor: pointer;
+}
+
+.search-view {
 }
 
 .search-bar {
@@ -45,17 +57,35 @@ a.init-button {
     padding: 0.46em 1.6em;
     color: #ffffff;
     font-weight: bold;
+    background: -webkit-gradient(
+        linear,
+        left top,
+        left bottom,
+        from(#1db954),
+        to(#1db9547a)
+    );
+    -moz-border-radius: 30px;
+    -webkit-border-radius: 30px;
     border: 0.1em;
     border-radius: 10px;
     cursor: pointer;
 }
 
-
+.loader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 70vh;
+}
 .song-data {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     padding: 10px;
+}
+
+.song-data:hover {
+    background-color: #ffffff1f;
 }
 
 .left-data {
@@ -68,4 +98,49 @@ a.init-button {
 .album-img {
     border-right: 15px solid #ffffff00;
     height: 50px;
+}
+
+.song-name {
+    cursor: pointer;
+}
+
+.playlistButton {
+    color: #ffffff;
+    background: #1db954;
+    cursor: pointer;
+}
+
+.error {
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    min-height: 70vh;
+}
+
+.addButton {
+    color: #ffffff;
+    background: #191414;
+    cursor: pointer;
+}
+
+.playlist-options {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    padding: 10px;
+}
+
+.footer {
+    padding: 10px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.user-logo {
+    height: 50px;
+    border-radius: 100%;
 }

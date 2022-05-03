@@ -1,4 +1,4 @@
-# Spotify Web API v1.0 <img src="https://www.nebrija.com/lp/2019/inc/common/assets/img/logo_nebrija.png" height="50px" align="right" />
+# Spotify Web API v1.1 <img src="https://www.nebrija.com/lp/2019/inc/common/assets/img/logo_nebrija.png" height="50px" align="right" />
 ![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
 ![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E)
 ![HTML5](https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white)
@@ -9,20 +9,21 @@ Página que a través de la API de Spotify puedes buscar música nueva o conocid
 ## :bookmark_tabs: Tabla de contenidos 
 1. Demo
 2. Funcionalidades
-3. Instalacion
+3. Instalación
 4. Problemas conocidos
 5. Dependencias
-6. Otra informacion
+6. Otra información
 7. Licencia
 
 ## :computer: Demo
-Visita mi proyecto haciendo click [Aquí](https://aagatiello.github.io/)
+Visita mi proyecto haciendo click [aquí](https://aagatiello.github.io/).
 
 ## :gear: Funcionalidades
 | VERSION | FUNCIONALIDADES |
 |---|---|
-| v0.1 | Inicio de sesión<br>Busqueda de canción o artista por nombre |
+| v0.1 | Inicio de sesión<br>Búsqueda de canción o artista por nombre |
 | v1.0 | Reproducción de canción seleccionada<br>Agregar canción a playlist del usuario<br>Mejoras visuales de la interfaz |
+| v1.1 | Cierre de sesión<br>Creación de playlists<br>Mejoras visuales de la interfaz |
 
 ## :hammer_and_wrench: Instalación
 Las siguientes instrucciones te permitirán descargar el proyecto y ejecutarlo para que sea usado localmente. 
@@ -39,11 +40,11 @@ Copia el contenido de .env.sample a un .env y rellena los campos con las credenc
 ```
 npm start
 ```
-Ejecuta la app en modo desarrollo. 
-Para poder verlo en el navegador, abre [http://localhost:3000](http://localhost:3000)
+Ejecuta la app en modo desarrollo. <br>
+Para poder verlo en el navegador, abre [http://localhost:3000](http://localhost:3000).
 
 ## :triangular_flag_on_post: Problemas conocidos
-* En Google Chrome puede dar error al iniciar sesión. El navegador recomendado para esta aplicación es `Firefox`.
+* En Google Chrome puede dar error al iniciar sesión. El navegador recomendado para esta aplicación es **Firefox**.
 
 ## :paperclips: Dependencias
 Se encuentran en el archivo `package.json`.
@@ -52,6 +53,7 @@ El proyecto cuenta con las siguientes dependencias:
 
 ```json
 "dependencies": {
+    "@fullpage/react-fullpage": "^0.1.23",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.1.1",
     "@testing-library/user-event": "^13.5.0",
