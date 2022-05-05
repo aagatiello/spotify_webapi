@@ -5,6 +5,7 @@ import "./Styles.css";
 import ReactFullpage from "@fullpage/react-fullpage";
 import LogOut from "./LogOut";
 import usericon from "../img/usericon.png";
+import Wrapped from "./Wrapped";
 
 const scopes = [
     "playlist-modify-public",
@@ -125,6 +126,13 @@ class OAuth extends React.Component {
                                             token={token}
                                             error={error}
                                             user={user}
+                                        />
+                                    </div>
+                                    <div className="section">
+                                        <Wrapped
+                                            redirect_uri={redirect_uri}
+                                            token={token}
+                                            error={error}
                                         />
                                     </div>
                                     <div className="section">

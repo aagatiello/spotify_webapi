@@ -144,3 +144,17 @@ a.init-button {
     height: 50px;
     border-radius: 100%;
 }
+
+.wrapped-section{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    align-content: space-around;
+
+}
+.wrapped-view{
+   
+    display: flex;
+    flex-direction: row;
+}

@@ -2,7 +2,6 @@ import React from "react";
 import "./Styles.css";
 
 class LogOut extends React.Component {
-
     render() {
         const { img } = this.props;
 
