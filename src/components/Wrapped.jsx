@@ -75,40 +75,53 @@ class Wrapped extends React.Component {
             <div>
                 {token && !error && topartist && toptracks && (
                     <div className="wrapped-section">
-                        <div className="wrapped-title"> Estadisticas </div>
+                        <h2 className="wrapped-title"> Estadisticas </h2>
                         <div className="wrapped-buttons">
+                           
+                                <input
+                                    type="radio"
+                                    id="long"
+                                    name="view"
+                                    onClick={() => {
+                                        this.setState({
+                                            time_range: "long_term",
+                                        });
+                                    }}
+                                />
+                                <label htmlFor="long">Siempre</label>
+                                <input
+                                    type="radio"
+                                    id="medium"
+                                    name="view"
+                                    defaultChecked
+                                    onClick={() => {
+                                        this.setState({
+                                            time_range: "medium_term",
+                                        });
+                                    }}
+                                />
+                                <label htmlFor="medium">
+                                    Últimos seis meses
+                                </label>
+                                <input
+                                    type="radio"
+                                    id="short"
+                                    name="view"
+                                    onClick={() => {
+                                        this.setState({
+                                            time_range: "short_term",
+                                        });
+                                    }}
+                                />
+                                <label htmlFor="short">Último mes</label>
+                            
                             <button
-                                className="wrappedButton"
                                 onClick={() => {
-                                    this.setState({
-                                        time_range: "long_term",
-                                    });
                                     this.getTopItems();
                                 }}
                             >
-                                Siempre
-                            </button>
-                            <button
-                                className="wrappedButton"
-                                onClick={() => {
-                                    this.setState({
-                                        time_range: "medium_term",
-                                    });
-                                    this.getTopItems();
-                                }}
-                            >
-                                Ultimos seis meses
-                            </button>
-                            <button
-                                className="wrappedButton"
-                                onClick={() => {
-                                    this.setState({
-                                        time_range: "short_term",
-                                    });
-                                    this.getTopItems();
-                                }}
-                            >
-                                Ultimo mes
+                                {" "}
+                                Recargar{" "}
                             </button>
                         </div>
                         {loader ? (

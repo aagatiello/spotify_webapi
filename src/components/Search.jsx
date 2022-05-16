@@ -4,6 +4,7 @@ import SpotifyPlayer from "react-spotify-player";
 import { SpiralSpinner } from "react-spinners-kit";
 import ReactModal from "./ReactModal";
 import "./Styles.css";
+import { Scrollbars } from 'react-custom-scrollbars-2';
 
 class Search extends React.Component {
     constructor(props) {
@@ -36,6 +37,7 @@ class Search extends React.Component {
             axios
                 .get(url, { headers })
                 .then((response) => {
+                    console.log(token);
                     if (response.error) {
                         sessionStorage.removeItem("token");
                         window.location = this.props.redirect_uri;
@@ -213,7 +215,7 @@ class Search extends React.Component {
         } = this.state;
 
         const sizeSpotifyPlayer = {
-            width: "100%",
+            width: "94%",
             height: 80,
         };
 
@@ -249,6 +251,10 @@ class Search extends React.Component {
                                     />
                                 </div>
                             ) : (
+                                <Scrollbars
+                                    
+                                style={{ width: 1300, height: 400 }}
+                                >
                                 <div className="results-list">
                                     {results.map((song, ind) => {
                                         return (
@@ -306,10 +312,11 @@ class Search extends React.Component {
                                         </div>
                                     )}
                                 </div>
+                                </Scrollbars>
                             )}
 
                             {getSearch && results.length && songuri && (
-                                <div>
+                                <div >
                                     <SpotifyPlayer
                                         uri={this.state.songuri}
                                         size={sizeSpotifyPlayer}

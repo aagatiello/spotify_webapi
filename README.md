@@ -1,4 +1,4 @@
-# Spotify Web API v2.0 <img src="https://www.nebrija.com/lp/2019/inc/common/assets/img/logo_nebrija.png" height="50px" align="right" />
+# Spotify Web API v2.1 <img src="https://www.nebrija.com/lp/2019/inc/common/assets/img/logo_nebrija.png" height="50px" align="right" />
 ![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
 ![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E)
 ![HTML5](https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white)
@@ -25,6 +25,7 @@ Visita mi proyecto haciendo click [aquí](https://aagatiello.github.io/).
 | v1.0 | Reproducción de canción seleccionada<br>Agregar canción a playlist del usuario<br>Mejoras visuales de la interfaz |
 | v1.1 | Cierre de sesión<br>Creación de playlists<br>Mejoras visuales de la interfaz |
 | v2.0 | Estadísticas de canciones y artistas más escuchados en el tiempo|
+| v2.1 | Canciones recomendadas según estadísticas<br>Mejoras visuales de la interfaz |
 
 ## :hammer_and_wrench: Instalación
 Las siguientes instrucciones te permitirán descargar el proyecto y ejecutarlo para que sea usado localmente. 

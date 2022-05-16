@@ -6,6 +6,9 @@ import ReactFullpage from "@fullpage/react-fullpage";
 import LogOut from "./LogOut";
 import usericon from "../img/usericon.png";
 import Wrapped from "./Wrapped";
+import Recommendations from "./Recommendations";
+import TypeAnimation from 'react-type-animation';
+
 
 const scopes = [
     "playlist-modify-public",
@@ -90,15 +93,38 @@ class OAuth extends React.Component {
     componentWillUnmount() {
         clearInterval(this.token);
     }
+    
 
     render() {
         const { redirect_uri, token, error, user } = this.state;
 
+
         return (
             <div>
                 {!token && (
+                    
                     <div className="init-view">
-                        <div className="init-title">¿Buscando música?</div>
+                        
+                        <div className="init-title" >¿Buscando           
+                        <TypeAnimation
+        cursor={true}
+        sequence={[
+            'música?',
+            3000,
+            'artistas?',
+            3000,
+            'estadísticas?',
+            3000,
+            'recomendaciones?',
+            3000,
+          ]}
+          wrapper="a"
+          className="init-title"
+        repeat={Infinity}
+       />
+          </div>
+                        
+
                         <a href={redirect_uri} className="init-button">
                             Inicia sesión en Spotify
                         </a>
@@ -110,7 +136,7 @@ class OAuth extends React.Component {
                         licenseKey={null}
                         scrollingSpeed={750}
                         navigation
-                        sectionsColor={["#191414", "#1db954", "#191414"]}
+                        sectionsColor={["#191414", "#1db954", "#191414", "#1db954"]}
                         render={() => {
                             let icon;
                             if (user.images[0].url !== undefined) {
@@ -130,6 +156,13 @@ class OAuth extends React.Component {
                                     </div>
                                     <div className="section">
                                         <Wrapped
+                                            redirect_uri={redirect_uri}
+                                            token={token}
+                                            error={error}
+                                        />
+                                    </div>
+                                    <div className="section">
+                                        <Recommendations
                                             redirect_uri={redirect_uri}
                                             token={token}
                                             error={error}
