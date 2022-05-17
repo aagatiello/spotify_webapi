@@ -1,7 +1,8 @@
+import "../styles/Styles.css";
+
 import React from "react";
-import axios from "axios";
 import { SpiralSpinner } from "react-spinners-kit";
-import "./Styles.css";
+import axios from "axios";
 
 class Wrapped extends React.Component {
     constructor(props) {
@@ -29,7 +30,7 @@ class Wrapped extends React.Component {
             .all([
                 axios
                     .get(
-                        `https://api.spotify.com/v1/me/top/artists?&limit=10&time_range=${time_range}`,
+                        `https://api.spotify.com/v1/me/top/artists?&limit=8&time_range=${time_range}`,
                         {
                             headers,
                         }
@@ -46,7 +47,7 @@ class Wrapped extends React.Component {
 
                 axios
                     .get(
-                        `https://api.spotify.com/v1/me/top/tracks?&limit=10&time_range=${time_range}`,
+                        `https://api.spotify.com/v1/me/top/tracks?&limit=8&time_range=${time_range}`,
                         {
                             headers,
                         }
@@ -75,46 +76,43 @@ class Wrapped extends React.Component {
             <div>
                 {token && !error && topartist && toptracks && (
                     <div className="wrapped-section">
-                        <h2 className="wrapped-title"> Estadisticas </h2>
+                        <h2 className="wrapped-title"> Estadísticas </h2>
                         <div className="wrapped-buttons">
-                           
-                                <input
-                                    type="radio"
-                                    id="long"
-                                    name="view"
-                                    onClick={() => {
-                                        this.setState({
-                                            time_range: "long_term",
-                                        });
-                                    }}
-                                />
-                                <label htmlFor="long">Siempre</label>
-                                <input
-                                    type="radio"
-                                    id="medium"
-                                    name="view"
-                                    defaultChecked
-                                    onClick={() => {
-                                        this.setState({
-                                            time_range: "medium_term",
-                                        });
-                                    }}
-                                />
-                                <label htmlFor="medium">
-                                    Últimos seis meses
-                                </label>
-                                <input
-                                    type="radio"
-                                    id="short"
-                                    name="view"
-                                    onClick={() => {
-                                        this.setState({
-                                            time_range: "short_term",
-                                        });
-                                    }}
-                                />
-                                <label htmlFor="short">Último mes</label>
-                            
+                            <input
+                                type="radio"
+                                id="long"
+                                name="view"
+                                onClick={() => {
+                                    this.setState({
+                                        time_range: "long_term",
+                                    });
+                                }}
+                            />
+                            <label htmlFor="long">Siempre</label>
+                            <input
+                                type="radio"
+                                id="medium"
+                                name="view"
+                                defaultChecked
+                                onClick={() => {
+                                    this.setState({
+                                        time_range: "medium_term",
+                                    });
+                                }}
+                            />
+                            <label htmlFor="medium">Últimos seis meses</label>
+                            <input
+                                type="radio"
+                                id="short"
+                                name="view"
+                                onClick={() => {
+                                    this.setState({
+                                        time_range: "short_term",
+                                    });
+                                }}
+                            />
+                            <label htmlFor="short">Último mes</label>
+
                             <button
                                 onClick={() => {
                                     this.getTopItems();

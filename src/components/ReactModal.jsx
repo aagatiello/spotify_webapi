@@ -1,6 +1,7 @@
-import React from "react";
+import "../styles/Styles.css";
+
 import Modal from "react-modal";
-import "./Styles.css";
+import React from "react";
 
 class ReactModal extends React.Component {
     constructor(props) {
@@ -43,7 +44,7 @@ class ReactModal extends React.Component {
     };
 
     render() {
-        const { closeModal, playlists, addToPlaylist, user } = this.props;
+        const { closeReactModal, playlists, addToPlaylist, user } = this.props;
         const { addNew } = this.state;
         return (
             <div className="Modal">
@@ -95,7 +96,7 @@ class ReactModal extends React.Component {
                             <button onClick={this.addNewPlaylist}>
                                 {!addNew ? "Crear nueva playlist" : "Cancelar"}
                             </button>
-                            <button onClick={closeModal}>Cerrar</button>
+                            <button onClick={closeReactModal}>Cerrar</button>
                         </div>
                         {addNew && (
                             <div className="playlist-new">

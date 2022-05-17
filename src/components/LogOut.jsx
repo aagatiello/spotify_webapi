@@ -1,5 +1,6 @@
+import "../styles/Styles.css";
+
 import React from "react";
-import "./Styles.css";
 
 class LogOut extends React.Component {
     render() {
@@ -10,7 +11,6 @@ class LogOut extends React.Component {
                 {img && (
                     <div className="footer">
                         <img src={img} alt="user-logo" className="user-logo" />{" "}
-                        
                         <a
                             href={"https://accounts.spotify.com/es-ES/status"}
                             className="logoff-button"

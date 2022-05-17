@@ -1,6 +1,6 @@
 import "./App.css";
-import OAuth from "./components/OAuth";
 
+import OAuth from "./components/OAuth";
 
 function App() {
     return (

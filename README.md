@@ -1,4 +1,4 @@
-# Spotify Web API v2.1 <img src="https://www.nebrija.com/lp/2019/inc/common/assets/img/logo_nebrija.png" height="50px" align="right" />
+# Spotify Web API v2.1.1 <img src="https://www.nebrija.com/lp/2019/inc/common/assets/img/logo_nebrija.png" height="50px" align="right" />
 ![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
 ![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E)
 ![HTML5](https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white)
@@ -58,14 +58,15 @@ El proyecto cuenta con las siguientes dependencias:
     "@fullpage/react-fullpage": "^0.1.23",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.1.1",
-    "@testing-library/user-event": "^13.5.0",
     "axios": "^0.27.2",
     "react": "^18.1.0",
+    "react-custom-scrollbars-2": "^4.4.0",
     "react-dom": "^18.1.0",
     "react-modal": "^3.15.1",
     "react-scripts": "5.0.1",
     "react-spinners-kit": "^1.9.1",
     "react-spotify-player": "^1.0.4",
+    "react-type-animation": "^1.1.3",
     "web-vitals": "^2.1.4"
 }
 ```

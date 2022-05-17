@@ -1,14 +1,14 @@
-import React from "react";
-import axios from "axios";
-import Search from "./Search";
-import "./Styles.css";
-import ReactFullpage from "@fullpage/react-fullpage";
-import LogOut from "./LogOut";
-import usericon from "../img/usericon.png";
-import Wrapped from "./Wrapped";
-import Recommendations from "./Recommendations";
-import TypeAnimation from 'react-type-animation';
+import "../styles/Styles.css";
 
+import LogOut from "./LogOut";
+import React from "react";
+import ReactFullpage from "@fullpage/react-fullpage";
+import Recommendations from "./Recommendations";
+import Search from "./Search";
+import TypeAnimation from "react-type-animation";
+import Wrapped from "./Wrapped";
+import axios from "axios";
+import usericon from "../img/usericon.png";
 
 const scopes = [
     "playlist-modify-public",
@@ -93,37 +93,33 @@ class OAuth extends React.Component {
     componentWillUnmount() {
         clearInterval(this.token);
     }
-    
 
     render() {
         const { redirect_uri, token, error, user } = this.state;
 
-
         return (
             <div>
                 {!token && (
-                    
                     <div className="init-view">
-                        
-                        <div className="init-title" >¿Buscando           
-                        <TypeAnimation
-        cursor={true}
-        sequence={[
-            'música?',
-            3000,
-            'artistas?',
-            3000,
-            'estadísticas?',
-            3000,
-            'recomendaciones?',
-            3000,
-          ]}
-          wrapper="a"
-          className="init-title"
-        repeat={Infinity}
-       />
-          </div>
-                        
+                        <div className="init-title">
+                            ¿Buscando
+                            <TypeAnimation
+                                cursor={true}
+                                sequence={[
+                                    "música?",
+                                    3000,
+                                    "artistas?",
+                                    3000,
+                                    "estadísticas?",
+                                    3000,
+                                    "recomendaciones?",
+                                    3000,
+                                ]}
+                                wrapper="a"
+                                className="init-title"
+                                repeat={Infinity}
+                            />
+                        </div>
 
                         <a href={redirect_uri} className="init-button">
                             Inicia sesión en Spotify
@@ -133,10 +129,15 @@ class OAuth extends React.Component {
 
                 {token && !error && user.display_name && (
                     <ReactFullpage
-                        licenseKey={null}
+                        licenseKey={"OPEN-SOURCE-GPLV3-LICENSE"}
                         scrollingSpeed={750}
-                        navigation
-                        sectionsColor={["#191414", "#1db954", "#191414", "#1db954"]}
+                        navigation={true}
+                        sectionsColor={[
+                            "#191414",
+                            "#1db954",
+                            "#191414",
+                            "#1db954",
+                        ]}
                         render={() => {
                             let icon;
                             if (user.images[0].url !== undefined) {
@@ -146,7 +147,7 @@ class OAuth extends React.Component {
                             }
                             return (
                                 <ReactFullpage.Wrapper>
-                                    <div className="section">
+                                    <div className="section fp-noscroll">
                                         <Search
                                             redirect_uri={redirect_uri}
                                             token={token}
@@ -154,21 +155,21 @@ class OAuth extends React.Component {
                                             user={user}
                                         />
                                     </div>
-                                    <div className="section">
+                                    <div className="section fp-noscroll">
                                         <Wrapped
                                             redirect_uri={redirect_uri}
                                             token={token}
                                             error={error}
                                         />
                                     </div>
-                                    <div className="section">
+                                    <div className="section fp-noscroll">
                                         <Recommendations
                                             redirect_uri={redirect_uri}
                                             token={token}
                                             error={error}
                                         />
                                     </div>
-                                    <div className="section">
+                                    <div className="section fp-noscroll">
                                         <LogOut img={icon} />
                                     </div>
                                 </ReactFullpage.Wrapper>

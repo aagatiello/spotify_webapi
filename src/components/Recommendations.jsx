@@ -1,7 +1,8 @@
+import "../styles/Styles.css";
+
 import React from "react";
-import axios from "axios";
 import { SpiralSpinner } from "react-spinners-kit";
-import "./Styles.css";
+import axios from "axios";
 
 class Recommendations extends React.Component {
     constructor(props) {
@@ -21,7 +22,7 @@ class Recommendations extends React.Component {
         this.getTopItems();
     }
 
-    getTopItems = () => {
+    getTopItems = async () => {
         const { token } = this.props;
         const headers = {
             Authorization: "Bearer " + token,
@@ -29,56 +30,46 @@ class Recommendations extends React.Component {
 
         axios
             .all([
-                axios
-                    .get(
-                        `https://api.spotify.com/v1/me/top/artists?&limit=3&time_range=medium_term`,
-                        {
-                            headers,
-                        }
-                    )
-                    .then((response) => {
-                        if (response.error) {
-                            sessionStorage.removeItem("token");
-                            window.location = this.props.redirect_uri;
-                        }
-                        for (let i = 0; i < 3; i++) {
-                            this.setState((prevState) => ({
-                                seed_artists: [
-                                    ...prevState.seed_artists,
-                                    response.data.items[i].id,
-                                ],
-                                seed_genres: [
-                                    ...prevState.seed_genres,
-                                    response.data.items[i].genres[0],
-                                ].filter(Boolean),
-                            }));
-                        }
-                    }),
+                axios.get(
+                    `https://api.spotify.com/v1/me/top/artists?&limit=8&time_range=medium_term`,
+                    {
+                        headers,
+                    }
+                ),
 
-                axios
-                    .get(
-                        `https://api.spotify.com/v1/me/top/tracks?&limit=3&time_range=medium_term`,
-                        {
-                            headers,
-                        }
-                    )
-                    .then((response) => {
-                        if (response.error) {
-                            sessionStorage.removeItem("token");
-                            window.location = this.props.redirect_uri;
-                        }
-                        for (let i = 0; i < 3; i++) {
-                            this.setState((prevState) => ({
-                                seed_tracks: [
-                                    ...prevState.seed_tracks,
-                                    response.data.items[i].id,
-                                ],
-                            }));
-                        }
-
-                        this.getRecommendations();
-                    }),
+                axios.get(
+                    `https://api.spotify.com/v1/me/top/tracks?&limit=8&time_range=medium_term`,
+                    {
+                        headers,
+                    }
+                ),
             ])
+            .then((responseArr) => {
+                if (responseArr.error) {
+                    sessionStorage.removeItem("token");
+                    window.location = this.props.redirect_uri;
+                }
+
+                for (let i = 0; i < 8; i++) {
+                    this.setState((prevState) => ({
+                        seed_artists: [
+                            ...prevState.seed_artists,
+                            responseArr[0].data.items[i].id,
+                        ],
+                        seed_genres: [
+                            ...prevState.seed_genres,
+                            responseArr[0].data.items[i].genres[0],
+                        ].filter(Boolean),
+                        seed_tracks: [
+                            ...prevState.seed_tracks,
+                            responseArr[1].data.items[i].id,
+                        ],
+                    }));
+                    if (i === 2) {
+                        this.getRecommendations();
+                    }
+                }
+            })
             .catch(() => {
                 sessionStorage.removeItem("token");
                 window.location = this.props.redirect_uri;
@@ -86,15 +77,16 @@ class Recommendations extends React.Component {
     };
 
     getRecommendations = () => {
-        const { seed_artists, seed_genres, seed_tracks } = this.state;
         const { token } = this.props;
         const headers = {
             Authorization: "Bearer " + token,
         };
-        for (let i = 0; i < 10; i++) {
-            let artist = encodeURIComponent(seed_artists[i]);
-            let genres = encodeURIComponent(seed_genres[i]).replaceAll("-", "");
-            let tracks = encodeURIComponent(seed_tracks[i]);
+        for (let i = 0; i < 8; i++) {
+            let artist = encodeURIComponent(this.state.seed_artists[i]);
+            let genres = encodeURIComponent(
+                this.state.seed_genres[i]
+            ).replaceAll("-", "");
+            let tracks = encodeURIComponent(this.state.seed_tracks[i]);
             axios
                 .get(
                     `https://api.spotify.com/v1/recommendations?seed_artists=${artist}&seed_genres=${genres}&seed_tracks=${tracks}`,
@@ -104,16 +96,17 @@ class Recommendations extends React.Component {
                 )
                 .then((response) => {
                     if (response.error) {
-                        console.log("Error");
+                        sessionStorage.removeItem("token");
+                        window.location = this.props.redirect_uri;
                     }
-                    this.setState({
-                        recommendations: response.data.tracks,
-                    });
-                });
 
-            console.log(
-                `https://api.spotify.com/v1/recommendations?seed_artists=${artist}&seed_genres=${genres}&seed_tracks=${tracks}`
-            );
+                    this.setState((prevState) => ({
+                        recommendations: [
+                            ...prevState.recommendations,
+                            response.data.tracks[0],
+                        ],
+                    }));
+                });
         }
     };
 
@@ -130,25 +123,19 @@ class Recommendations extends React.Component {
                         <div className="recommend-view">
                             {recommendations.map((item, ind) => {
                                 return (
-                                    <div
-                                    className="track-data"
-                                    key={ind}
-                                >
-                                    <div className="left-data">
-                                        <img
-                                            src={
-                                                item.album
-                                                    .images[0].url
-                                            }
-                                            alt="album-img"
-                                            className="album-img"
-                                        />
-                                        <div className="track-name">
-                                            {item.name} -{" "}
-                                            {item.artists[0].name}
+                                    <div className="track-data" key={ind}>
+                                        <div className="left-data">
+                                            <img
+                                                src={item.album.images[0].url}
+                                                alt="album-img"
+                                                className="album-img"
+                                            />
+                                            <div className="track-name">
+                                                {item.name} -{" "}
+                                                {item.artists[0].name}
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
                                 );
                             })}
                         </div>
