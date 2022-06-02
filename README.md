@@ -7,13 +7,12 @@
 Página que a través de la API de Spotify puedes buscar música nueva o conocida, ver tus estadísticas y encontrar recomendaciones según tu perfil.
 
 ## :bookmark_tabs: Tabla de contenidos 
-1. Demo
-2. Funcionalidades
-3. Instalación
-4. Problemas conocidos
-5. Dependencias
-6. Otra información
-7. Licencia
+1. Funcionalidades
+2. Instalación
+3. Problemas conocidos
+4. Dependencias
+5. Otra información
+6. Licencia
 
 ## :gear: Funcionalidades
 | VERSION | FUNCIONALIDADES |
