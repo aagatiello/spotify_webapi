@@ -15,9 +15,6 @@ Página que a través de la API de Spotify puedes buscar música nueva o conocid
 6. Otra información
 7. Licencia
 
-## :computer: Demo
-Visita mi proyecto haciendo click [aquí](https://aagatiello.github.io/).
-
 ## :gear: Funcionalidades
 | VERSION | FUNCIONALIDADES |
 |---|---|
